@@ -11,4 +11,11 @@ npm install react-countup
 ###### 或者
 yarn add react-countup
 
+###     4、时间处理距离现在
+
+import dayjs from 'dayjs'
+dayjs.extend(relativeTime)
+
+dayjs(Number(v) * 1000).fromNow()
+
 
