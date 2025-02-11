@@ -21,6 +21,7 @@ dayjs(Number(v) * 1000).fromNow()
 
 ###     5、三方客服插件
 文档 https://developer.zendesk.com/documentation/zendesk-web-widget-sdks/sdks/web/getting_started/
+```
 export const initZendeskService = () => {
   // 引入zendesk在线客服
   const head = document.getElementsByTagName('head')[0]
@@ -36,6 +37,7 @@ export const initZendeskService = () => {
   head.appendChild(script)
 
 }
+```
 <img width="417" alt="image" src="https://github.com/user-attachments/assets/45db090e-f825-4de5-be08-6964cd2adf35" />
 
 
