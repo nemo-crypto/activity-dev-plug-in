@@ -25,7 +25,7 @@ dayjs.extend(relativeTime)
 
 dayjs(Number(v) * 1000).fromNow()
 
-###     5、三方客服插件
+###     5、zdassets三方客服插件
 文档 https://developer.zendesk.com/documentation/zendesk-web-widget-sdks/sdks/web/getting_started/
 ```
 export const initZendeskService = () => {
