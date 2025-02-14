@@ -8,7 +8,7 @@ https://100px.net/demo/more.html
 https://www.kirilv.com/canvas-confetti/
 ![alt text](image-1.png)
 
-###     3、动态计数效果
+###     3、数字滚动插件
 
 ```
 npm install react-countup
