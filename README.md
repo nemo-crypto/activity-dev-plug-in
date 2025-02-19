@@ -3,7 +3,7 @@
 https://100px.net/demo/more.html
 ![alt text](image.png)
 
-### 	2、撒花🎉
+### 	2、撒花🎉 插件
 
 https://www.kirilv.com/canvas-confetti/
 ![alt text](image-1.png)
