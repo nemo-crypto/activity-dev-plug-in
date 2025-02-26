@@ -19,6 +19,7 @@ yarn add react-countup
 ###     4、时间处理距离现在
 
 ```
+// day.js 轻量级
 import dayjs from 'dayjs'
 dayjs.extend(relativeTime)
 ```
