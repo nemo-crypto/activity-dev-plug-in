@@ -2,15 +2,41 @@ import { StrictMode, Suspense, lazy, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Toaster } from 'sonner';
 import catalog from './catalog.json';
-import { Celebration, PrizeWheel, Overlays, Signup, Notifications, AnimatedCards, SortableDemo, QrDemo, Support } from './components/Demos';
+import {
+  Celebration,
+  PrizeWheel,
+  Overlays,
+  Signup,
+  Notifications,
+  AnimatedCards,
+  SortableDemo,
+  QrDemo,
+  Support,
+} from './components/Demos';
 import './style.css';
-const WalletDemo = lazy(() => import('./components/WalletDemo').then(m => ({ default: m.WalletDemo })));
-const DataTable = lazy(() => import('./components/DataDemo').then(m => ({ default: m.DataTable })));
-const ChartDemo = lazy(() => import('./components/DataDemo').then(m => ({ default: m.ChartDemo })));
+const WalletDemo = lazy(() =>
+  import('./components/WalletDemo').then((m) => ({ default: m.WalletDemo })),
+);
+const DataTable = lazy(() =>
+  import('./components/DataDemo').then((m) => ({ default: m.DataTable })),
+);
+const ChartDemo = lazy(() =>
+  import('./components/DataDemo').then((m) => ({ default: m.ChartDemo })),
+);
 const demos = [
-  { id: 'celebration', title: '让每次成功有点仪式感', library: 'Confetti / CountUp / Day.js', component: Celebration },
+  {
+    id: 'celebration',
+    title: '让每次成功有点仪式感',
+    library: 'Confetti / CountUp / Day.js',
+    component: Celebration,
+  },
   { id: 'wheel', title: '活动转盘', library: 'Motion / 本地随机结果', component: PrizeWheel },
-  { id: 'overlay', title: '从桌面到掌心', library: 'Radix Dialog & Tabs / Vaul', component: Overlays },
+  {
+    id: 'overlay',
+    title: '从桌面到掌心',
+    library: 'Radix Dialog & Tabs / Vaul',
+    component: Overlays,
+  },
   { id: 'form', title: '友好的报名表单', library: 'React Hook Form / Zod', component: Signup },
   { id: 'command', title: '一键直达', library: 'cmdk / Sonner', component: Notifications },
   { id: 'motion', title: '流动的界面', library: 'Motion Layout', component: AnimatedCards },
@@ -21,8 +47,205 @@ const demos = [
   { id: 'support', title: '需要帮助的时候', library: 'Zendesk Messaging', component: Support },
 ];
 function App() {
-  const [query, setQuery] = useState(''), [category, setCategory] = useState('全部'), [coverage, setCoverage] = useState('全部');
-  const filtered = catalog.filter(x => (category === '全部' || x.category === category) && (coverage === '全部' || x.status === coverage) && `${x.name} ${x.package} ${x.use}`.toLowerCase().includes(query.toLowerCase().trim()));
-  return <><a className="skip" href="#demos">跳到示例</a><header><a className="brand" href="#"><span>✳</span> ACTIVITY<span className="muted"> / LAB</span></a><nav aria-label="主导航"><a href="#demos">组件实验</a><a href="#web3">Web3</a><a href="#catalog">选型目录</a><a href="https://github.com/nemo-crypto/activity-dev-plug-in" target="_blank" rel="noreferrer">GitHub ↗</a></nav></header><main><section className="hero"><div><p className="eyebrow">BUILD SOMETHING PEOPLE LOVE</p><h1>好用的组件，<br/><span>值得亲手试试。</span></h1><p className="lead">从一个让人会心一笑的动效，到一次完整的钱包交互。<br/>把灵感变成可运行的代码。</p><div className="row"><a className="button" href="#demos">开始探索 ↗</a><a className="text-link" href="#catalog">找到适合你的库 →</a></div></div><div className="hero-art" aria-hidden="true"><div className="orb"/><span className="art-label">INTERACTION<br/>PLAYGROUND</span><span className="floating-tag">UI × MOTION × WEB3</span><div className="cross">✳</div></div></section><div className="stats"><div><strong>{catalog.length}</strong><span>精选组件库</span></div><div><strong>12</strong><span>交互实验</span></div><div><strong>7</strong><span>应用场景</span></div><p>React + TypeScript<br/>为桌面与移动端设计</p></div><section id="demos"><div className="section-heading"><div><p className="eyebrow">01 / PLAYGROUND</p><h2>点一下，看看会发生什么。</h2></div><span className="tag">默认使用本地演示数据</span></div><div className="demo-grid">{demos.map((demo, i) => <article className="card" key={demo.id} id={demo.id}><div className="card-head"><span className="number">{String(i + 1).padStart(2, '0')}</span><span>{demo.library}</span></div><h3>{demo.title}</h3><a className="source-link" href={`https://github.com/nemo-crypto/activity-dev-plug-in/blob/main/src/components/${['table', 'chart'].includes(demo.id) ? 'DataDemo' : 'Demos'}.tsx`} target="_blank" rel="noreferrer">查看 Demo 源码 ↗</a><Suspense fallback={<p>正在加载组件…</p>}><demo.component/></Suspense></article>)}</div></section><section id="web3"><div className="section-heading"><div><p className="eyebrow">02 / ONCHAIN</p><h2>从连接钱包，到合约确认。</h2></div><span className="tag">真实交互 · 本地测试链</span></div><article className="card wallet-card"><Suspense fallback={<p>正在加载钱包组件…</p>}><WalletDemo/></Suspense></article></section><section id="catalog"><div className="section-heading"><div><p className="eyebrow">03 / TOOLBOX</p><h2>下一次开发，从这里出发。</h2></div><span>{filtered.length} / {catalog.length} 个库</span></div><div className="filters"><label>搜索组件库<input placeholder="钱包、动画、表格、移动端…" value={query} onChange={e => setQuery(e.target.value)}/></label><label>应用场景<select value={category} onChange={e => setCategory(e.target.value)}>{['全部', ...new Set(catalog.map(x => x.category))].map(x => <option key={x}>{x}</option>)}</select></label><label>示例覆盖<select value={coverage} onChange={e => setCoverage(e.target.value)}>{['全部', '可运行', '接入示例', '选型目录'].map(x => <option key={x}>{x}</option>)}</select></label></div><p className="muted">可运行：本页已有实现 · 接入示例：仓库 recipes 配方 · 选型目录：官方资料入口</p><div className="catalog-grid">{filtered.map(x => <a className="library" href={x.url} target="_blank" rel="noreferrer" key={x.name}><div><span>{x.category}</span><span className={x.status === '可运行' ? 'live' : ''}>{x.status} ↗</span></div><h3>{x.name}</h3><p>{x.use}</p><code>{x.package}</code></a>)}</div>{!filtered.length && <p role="status">没有匹配的组件库，试试其他关键词。</p>}</section></main><footer><span>ACTIVITY / LAB</span><p>探索 · 理解 · 组合 · 创造</p><a href="https://github.com/nemo-crypto/activity-dev-plug-in/tree/main/recipes">查看接入配方 ↗</a></footer><Toaster theme="dark" richColors closeButton/></>;
+  const [query, setQuery] = useState(''),
+    [category, setCategory] = useState('全部'),
+    [coverage, setCoverage] = useState('全部');
+  const filtered = catalog.filter(
+    (x) =>
+      (category === '全部' || x.category === category) &&
+      (coverage === '全部' || x.status === coverage) &&
+      `${x.name} ${x.package} ${x.use}`.toLowerCase().includes(query.toLowerCase().trim()),
+  );
+  return (
+    <>
+      <a className="skip" href="#demos">
+        跳到示例
+      </a>
+      <header>
+        <a className="brand" href="#">
+          <span>✳</span> ACTIVITY<span className="muted"> / LAB</span>
+        </a>
+        <nav aria-label="主导航">
+          <a href="#demos">组件实验</a>
+          <a href="#web3">Web3</a>
+          <a href="#catalog">选型目录</a>
+          <a
+            href="https://github.com/nemo-crypto/activity-dev-plug-in"
+            target="_blank"
+            rel="noreferrer"
+          >
+            GitHub ↗
+          </a>
+        </nav>
+      </header>
+      <main>
+        <section className="hero">
+          <div>
+            <p className="eyebrow">BUILD SOMETHING PEOPLE LOVE</p>
+            <h1>
+              好用的组件，
+              <br />
+              <span>值得亲手试试。</span>
+            </h1>
+            <p className="lead">
+              从一个让人会心一笑的动效，到一次完整的钱包交互。
+              <br />
+              把灵感变成可运行的代码。
+            </p>
+            <div className="row">
+              <a className="button" href="#demos">
+                开始探索 ↗
+              </a>
+              <a className="text-link" href="#catalog">
+                找到适合你的库 →
+              </a>
+            </div>
+          </div>
+          <div className="hero-art" aria-hidden="true">
+            <div className="orb" />
+            <span className="art-label">
+              INTERACTION
+              <br />
+              PLAYGROUND
+            </span>
+            <span className="floating-tag">UI × MOTION × WEB3</span>
+            <div className="cross">✳</div>
+          </div>
+        </section>
+        <div className="stats">
+          <div>
+            <strong>{catalog.length}</strong>
+            <span>精选组件库</span>
+          </div>
+          <div>
+            <strong>12</strong>
+            <span>交互实验</span>
+          </div>
+          <div>
+            <strong>7</strong>
+            <span>应用场景</span>
+          </div>
+          <p>
+            React + TypeScript
+            <br />
+            为桌面与移动端设计
+          </p>
+        </div>
+        <section id="demos">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">01 / PLAYGROUND</p>
+              <h2>点一下，看看会发生什么。</h2>
+            </div>
+            <span className="tag">默认使用本地演示数据</span>
+          </div>
+          <div className="demo-grid">
+            {demos.map((demo, i) => (
+              <article className="card" key={demo.id} id={demo.id}>
+                <div className="card-head">
+                  <span className="number">{String(i + 1).padStart(2, '0')}</span>
+                  <span>{demo.library}</span>
+                </div>
+                <h3>{demo.title}</h3>
+                <a
+                  className="source-link"
+                  href={`https://github.com/nemo-crypto/activity-dev-plug-in/blob/main/src/components/${
+                    ['table', 'chart'].includes(demo.id) ? 'DataDemo' : 'Demos'
+                  }.tsx`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  查看 Demo 源码 ↗
+                </a>
+                <Suspense fallback={<p>正在加载组件…</p>}>
+                  <demo.component />
+                </Suspense>
+              </article>
+            ))}
+          </div>
+        </section>
+        <section id="web3">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">02 / ONCHAIN</p>
+              <h2>从连接钱包，到合约确认。</h2>
+            </div>
+            <span className="tag">真实交互 · 本地测试链</span>
+          </div>
+          <article className="card wallet-card">
+            <Suspense fallback={<p>正在加载钱包组件…</p>}>
+              <WalletDemo />
+            </Suspense>
+          </article>
+        </section>
+        <section id="catalog">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">03 / TOOLBOX</p>
+              <h2>下一次开发，从这里出发。</h2>
+            </div>
+            <span>
+              {filtered.length} / {catalog.length} 个库
+            </span>
+          </div>
+          <div className="filters">
+            <label>
+              搜索组件库
+              <input
+                placeholder="钱包、动画、表格、移动端…"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+              />
+            </label>
+            <label>
+              应用场景
+              <select value={category} onChange={(e) => setCategory(e.target.value)}>
+                {['全部', ...new Set(catalog.map((x) => x.category))].map((x) => (
+                  <option key={x}>{x}</option>
+                ))}
+              </select>
+            </label>
+            <label>
+              示例覆盖
+              <select value={coverage} onChange={(e) => setCoverage(e.target.value)}>
+                {['全部', '可运行', '接入示例', '选型目录'].map((x) => (
+                  <option key={x}>{x}</option>
+                ))}
+              </select>
+            </label>
+          </div>
+          <p className="muted">
+            可运行：本页已有实现 · 接入示例：仓库 recipes 配方 · 选型目录：官方资料入口
+          </p>
+          <div className="catalog-grid">
+            {filtered.map((x) => (
+              <a className="library" href={x.url} target="_blank" rel="noreferrer" key={x.name}>
+                <div>
+                  <span>{x.category}</span>
+                  <span className={x.status === '可运行' ? 'live' : ''}>{x.status} ↗</span>
+                </div>
+                <h3>{x.name}</h3>
+                <p>{x.use}</p>
+                <code>{x.package}</code>
+              </a>
+            ))}
+          </div>
+          {!filtered.length && <p role="status">没有匹配的组件库，试试其他关键词。</p>}
+        </section>
+      </main>
+      <footer>
+        <span>ACTIVITY / LAB</span>
+        <p>探索 · 理解 · 组合 · 创造</p>
+        <a href="https://github.com/nemo-crypto/activity-dev-plug-in/tree/main/recipes">
+          查看接入配方 ↗
+        </a>
+      </footer>
+      <Toaster theme="dark" richColors closeButton />
+    </>
+  );
 }
-createRoot(document.getElementById('root')!).render(<StrictMode><App/></StrictMode>);
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+);

@@ -4,7 +4,7 @@
 
 - `npm run build`：TypeScript 与生产构建通过；按 React、动效、浮层、数据与钱包分包，无超过默认 500 kB 阈值的单个 chunk。
 - `npm test`：2 个测试通过。合约生命周期测试包含部署、初始读取、模拟不变更状态、真实广播确认、事件解析、拒绝 value、非法调用回滚。
-- Playwright：7 个场景 × 桌面 / 手机视口，共 14 项通过。首次桌面部署遇到默认 gas 不足，修复为估算部署 gas 后，两个平台的真实 RPC 场景均复核通过。
+- Playwright：7 个场景 × 桌面 / 手机视口，共 14 项通过。首次桌面部署遇到默认 gas 不足，修复为估算部署 gas 后，两个平台的真实 RPC 场景均复核通过。随后加入首屏不跳滚和命令菜单键盘操作检查，全量 14 项再次通过。
 - 生产产物冒烟：桌面与手机视口均无 JavaScript 运行异常、无页面横向溢出，弹窗可打开/关闭；截图见 README。
 - `npm ci --dry-run --ignore-scripts --os=linux --cpu=x64`：通过。Ganache 内嵌 fsevents 在 lockfile 标为 optional，避免 Linux CI 误装 macOS 依赖。
 

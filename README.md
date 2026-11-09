@@ -78,6 +78,8 @@ npm run test:e2e         # Chromium 桌面和手机视口
 
 合约测试验证模拟不改状态、交易确认、事件、非 payable 拒绝和非法调用回滚。浏览器测试覆盖筛选、弹窗/抽屉、表单、表格、客服预览、转盘、二维码、模拟钱包状态变化，以及页面调用真实本地 RPC 完成交易确认。真实钱包 App、WalletConnect projectId、Zendesk 账号接入仍需自行完成真机联调。
 
+本次执行结果见 [验证记录](docs/validation.md)。
+
 ## 原始参考
 
 保留最初素材：[转盘参考](https://100px.net/demo/more.html)、[撒花参考](https://www.kirilv.com/canvas-confetti/)、[转盘截图](image.png)、[撒花截图](image-1.png)。
