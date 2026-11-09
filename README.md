@@ -2,6 +2,16 @@
 
 整理活动页中常用的转盘、撒花、数字滚动、相对时间和客服组件资料。本目录只有文档与截图，没有package.json、可启动站点或封装好的插件源码；下面片段需要放入相应业务项目中适配。
 
+<!-- BEGIN project-discovery -->
+## 项目定位与实践入口
+
+Frontend interaction integration notes: canvas-confetti, react-countup, Day.js and Zendesk Web Widget. 活动页抽奖、撒花动画、数字滚动与客服组件接入资料。
+
+适合从以下入口阅读实现与接入条件：
+
+- [组件接入示例与参考资料](README.md)
+<!-- END project-discovery -->
+
 ## 内容导航与接入条件
 
 | 主题 | 目录内容 | 宿主需要处理 |
@@ -68,5 +78,3 @@ export const initZendeskService = () => {
 }
 ```
 <img width="417" alt="image" src="https://github.com/user-attachments/assets/45db090e-f825-4de5-be08-6964cd2adf35" />
-
-
