@@ -17,7 +17,9 @@ export async function startChain(port = 0) {
     const errors = output.errors?.filter(x => x.severity === 'error');
     if (errors?.length) throw new Error(errors.map(x => x.formattedMessage).join('\n'));
     const compiled = output.contracts['Counter.sol'].Counter;
-    const hash = await wallet.deployContract({ account, abi: compiled.abi, bytecode: `0x${compiled.evm.bytecode.object}` });
+    const bytecode = `0x${compiled.evm.bytecode.object}`;
+    const gas = await client.estimateGas({ account, data: bytecode });
+    const hash = await wallet.deployContract({ account, abi: compiled.abi, bytecode, gas });
     const receipt = await client.waitForTransactionReceipt({ hash });
     if (receipt.status !== 'success' || !receipt.contractAddress) throw new Error('部署失败');
     return { server, client, wallet, account, address: receipt.contractAddress, abi: compiled.abi, rpc };

@@ -26,7 +26,7 @@ export function Celebration() {
   const [now, setNow] = useState(Date.now());
   const [started] = useState(Date.now());
   useEffect(() => { const timer = setInterval(() => setNow(Date.now()), 1000); return () => clearInterval(timer); }, []);
-  useEffect(() => () => confetti.reset(), []);
+  useEffect(() => () => { confetti.reset(); }, []);
   return <><div className="metric"><CountUp end={amount} preserveValue duration={reduced ? 0 : 1.2} separator=","/> <small>积分</small></div><p>活动开始于 {dayjs(started).from(dayjs(now))}</p><button onClick={() => { setAmount(v => v + 120); void confetti({ particleCount: 90, spread: 75, disableForReducedMotion: true }); }}>领取 120 演示积分</button></>;
 }
 const prizes = ['贴纸', '徽章', '积分', '明信片', '再接再厉', '头像'];
