@@ -1,1 +1,1 @@
-{"root":["./src/main.tsx","./src/vite-env.d.ts","./src/components/datademo.tsx","./src/components/demos.tsx","./src/components/walletdemo.tsx","./src/lib/contract.ts","./src/lib/zendesk.ts"],"errors":true,"version":"5.9.3"}
+{"root":["./src/main.tsx","./src/vite-env.d.ts","./src/components/datademo.tsx","./src/components/demos.tsx","./src/components/walletdemo.tsx","./src/lib/contract.ts","./src/lib/zendesk.ts"],"version":"5.9.3"}
