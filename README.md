@@ -4,6 +4,10 @@
 
 **83 个组件库选型条目 · 12 个交互实验 · 7 类应用场景**。目录区支持关键词、场景和覆盖状态筛选。没有把所有目录条目都安装到项目：16 个库有主站实现，10 个有独立接入配方，其余提供官方选型入口。
 
+![Activity Lab 桌面预览](docs/preview-desktop.png)
+
+[查看移动端预览](docs/preview-mobile.png)
+
 ## 快速运行
 
 需要 Node.js 22+、npm。
@@ -72,7 +76,7 @@ npx playwright install chromium
 npm run test:e2e         # Chromium 桌面和手机视口
 ```
 
-合约测试验证模拟不改状态、交易确认、事件、非 payable 拒绝和非法调用回滚。浏览器测试覆盖筛选、弹窗/抽屉、表单、表格、客服预览、转盘、二维码和模拟钱包状态变化。真实钱包 App、WalletConnect projectId、Zendesk 账号接入仍需自行完成真机联调。
+合约测试验证模拟不改状态、交易确认、事件、非 payable 拒绝和非法调用回滚。浏览器测试覆盖筛选、弹窗/抽屉、表单、表格、客服预览、转盘、二维码、模拟钱包状态变化，以及页面调用真实本地 RPC 完成交易确认。真实钱包 App、WalletConnect projectId、Zendesk 账号接入仍需自行完成真机联调。
 
 ## 原始参考
 
