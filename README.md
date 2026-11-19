@@ -1,5 +1,9 @@
 # Activity Lab · React UI & Web3 组件实验室
 
+**[在线体验 · 打开 Activity Lab 组件实验室](https://nemo-crypto.github.io/activity-dev-plug-in/)**
+
+在线版可直接使用前端示例。Ganache 合约签名与本地 RPC 演示需要在自己的电脑启动本地链。
+
 面向活动页、业务后台和 Web3 DApp 的 **React + TypeScript 教学 Demo**。涵盖 PC / 移动端 UI、动画组件、表单校验、数据表格、钱包连接和智能合约交互，原有撒花、数字滚动、Day.js、转盘、Zendesk 示例已补成可操作代码。
 
 **83 个组件库选型条目 · 12 个交互实验 · 7 类应用场景**。目录区支持关键词、场景和覆盖状态筛选。没有把所有目录条目都安装到项目：16 个库有主站实现，10 个有独立接入配方，其余提供官方选型入口。
