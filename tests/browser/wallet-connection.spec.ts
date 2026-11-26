@@ -39,3 +39,22 @@ test('disconnect during wallet approval cannot be undone by a late account respo
   await expect(page.getByRole('button', { name: '模拟并提交 +1' })).toBeDisabled();
   await expect(page.locator('.wallet-card [role=status]')).toContainText('钱包已断开');
 });
+
+test('account events received during approval stay authoritative without losing the chain', async ({ page }) => {
+  await prepare(page);
+  const currentAccount = '0x2222222222222222222222222222222222222222';
+  await page.evaluate(account => (window as any).walletTest.emit('accountsChanged', [account]), currentAccount);
+  await page.evaluate(() => (window as any).walletTest.resolve());
+  await expect(page.getByRole('button', { name: '连接 延迟测试钱包' })).toBeEnabled();
+  await expect(page.locator('.wallet-card')).toContainText(`账户：${currentAccount}`);
+  await expect(page.locator('.wallet-card')).toContainText('网络：31337');
+  await expect(page.getByRole('button', { name: '模拟并提交 +1' })).toBeEnabled();
+});
+test('an account removal event during approval cannot be replaced by the old response', async ({ page }) => {
+  await prepare(page);
+  await page.evaluate(() => (window as any).walletTest.emit('accountsChanged', []));
+  await page.evaluate(() => (window as any).walletTest.resolve());
+  await expect(page.getByRole('button', { name: '连接 延迟测试钱包' })).toBeEnabled();
+  await expect(page.locator('.wallet-card')).toContainText('账户：未连接');
+  await expect(page.getByRole('button', { name: '模拟并提交 +1' })).toBeDisabled();
+});
