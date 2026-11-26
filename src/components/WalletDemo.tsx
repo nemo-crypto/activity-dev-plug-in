@@ -29,6 +29,9 @@ export function WalletDemo() {
     [busy, setBusy] = useState(false);
   const [hash, setHash] = useState('');
   const generation = useRef(0);
+  const connectionVersion = useRef(0);
+  const accountVersion = useRef(0);
+  const chainVersion = useRef(0);
   useEffect(() => {
     function announce(e: Event) {
       const detail = (e as CustomEvent<Wallet>).detail;
@@ -50,18 +53,21 @@ export function WalletDemo() {
     if (!selected) return;
     const changed = (accounts: string[]) => {
       generation.current++;
+      accountVersion.current++;
       setAccount(accounts[0] && isAddress(accounts[0]) ? (accounts[0] as Address) : undefined);
       setHash('');
       setStatus('钱包账户已变更');
     };
     const chainChanged = (id: string) => {
       generation.current++;
+      chainVersion.current++;
       setChain(Number(id));
       setHash('');
       setStatus('钱包网络已变更');
     };
     const disconnect = () => {
       generation.current++;
+      connectionVersion.current++;
       setAccount(undefined);
       setChain(undefined);
       setStatus('钱包已断开');
@@ -78,6 +84,7 @@ export function WalletDemo() {
   useEffect(
     () => () => {
       generation.current++;
+      connectionVersion.current++;
     },
     [],
   );
@@ -95,15 +102,26 @@ export function WalletDemo() {
   }
   async function connect(wallet: Wallet) {
     generation.current++;
+    const connection = ++connectionVersion.current;
+    const accountRevision = accountVersion.current;
     setSelected(wallet);
     setAccount(undefined);
     setChain(undefined);
     setHash('');
-    const accounts = await wallet.provider.request({ method: 'eth_requestAccounts' });
-    const id = await wallet.provider.request({ method: 'eth_chainId' });
-    setAccount(accounts[0]);
-    setChain(Number(id));
-    setStatus('已连接，可切换至本地链');
+    try {
+      const accounts = await wallet.provider.request({ method: 'eth_requestAccounts' });
+      if (connection !== connectionVersion.current) return;
+      if (accountRevision === accountVersion.current)
+        setAccount(accounts[0] && isAddress(accounts[0]) ? accounts[0] : undefined);
+      const chainRevision = chainVersion.current;
+      const id = await wallet.provider.request({ method: 'eth_chainId' });
+      if (connection !== connectionVersion.current) return;
+      if (chainRevision === chainVersion.current) setChain(Number(id));
+      if (accountRevision === accountVersion.current && chainRevision === chainVersion.current)
+        setStatus('已连接，可切换至本地链');
+    } catch (error) {
+      if (connection === connectionVersion.current) throw error;
+    }
   }
   async function switchChain() {
     if (!selected) throw new Error('请先连接钱包');
@@ -199,6 +217,7 @@ export function WalletDemo() {
             className="secondary"
             onClick={() => {
               generation.current++;
+              connectionVersion.current++;
               setSelected(undefined);
               setAccount(undefined);
               setChain(undefined);
